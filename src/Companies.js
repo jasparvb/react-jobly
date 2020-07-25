@@ -4,7 +4,7 @@ import CompanyCard from './CompanyCard';
 
 function Companies({companies}) {
     return (
-        <div className="Companies">
+        <div className="Companies col-md-8 offset-md-2">
             <Search />
             {companies.map(c => 
                 <CompanyCard 
