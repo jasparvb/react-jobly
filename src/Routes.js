@@ -7,11 +7,11 @@ import Jobs from './Jobs';
 import Login from './Login';
 import Profile from './Profile';
 
-function Routes({companies, jobs}) {
+function Routes({companies, jobs, loggedIn}) {
   return (
     <Switch>
       <Route exact path="/">
-        <Home />
+        <Home loggedIn={loggedIn} />
       </Route>
       <Route exact path="/companies">
         <Companies companies={companies} />
