@@ -17,7 +17,7 @@ function Routes({companies, jobs}) {
         <Companies companies={companies} />
       </Route>
       <Route path="/companies/:company">
-        <Company company={companies} />
+        <Company companies={companies} />
       </Route>
       <Route exact path="/jobs">
         <Jobs companies={jobs} />
