@@ -33,4 +33,9 @@ class JoblyApi {
         let res = await this.request(`companies/`, search);
         return res.company;
     }
+    
+    static async apply(id) {
+        let res = await this.request(`jobs/${id}/apply`, {}, "post");
+        return res.company;
+    }
 }

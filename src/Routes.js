@@ -11,7 +11,7 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/">
-        <Home loggedIn={loggedIn} />
+        <Home />
       </Route>
       <Route exact path="/companies">
         <Companies />
@@ -20,13 +20,13 @@ function Routes() {
         <Company />
       </Route>
       <Route exact path="/jobs">
-        <Jobs jobs={jobs} />
+        <Jobs />
       </Route>
       <Route exact path="/login">
-        <Login companies={jobs} />
+        <Login />
       </Route>
       <Route exact path="/profile">
-        <Profile companies={jobs} />
+        <Profile />
       </Route>
       <Redirect to="/" />
     </Switch>

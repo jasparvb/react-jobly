@@ -1,8 +1,45 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import JoblyApi from "./JoblyApi";
 import JobCard from './JobCard';
+import UserContext from "./UserContext";
 
-function Company({companies}) {
+function Company() {
     const { handle } = useParams();
+    const { user } = useContext(UserContext);
+
+    const [company, setCompany] = useState(null);
+
+    useEffect(() => {
+        async function getCompany() {
+            const { jobs } = user;
+            const company = await JoblyApi.getCompany(handle);
+      
+            // grab a set of IDs of jobs applied to
+            const jobsApplied = new Set(jobs.map(job => job.id));
+      
+            // add key for each job in company if it is applied to ---
+            // this let us handle the "apply/applied" button
+            company.jobs = company.jobs.map(job => ({
+              ...job,
+              state: jobsApplied.has(job.id) ? 'applied' : null
+            }));
+      
+            setCompany(company);
+        }
+        getCompany();
+    }, [handle, user]);
+
+    async function apply(id) {
+        if(company.jobs.some(j => j.id === id && !j.state)) {
+            let message = await JoblyApi.apply(id);
+            let newCompany = { ...company };
+            newCompany.jobs = newCompany.jobs.map(job =>
+              job.id === jobId ? { ...job, state: message } : job
+            );
+            setCompany(newCompany);
+        }
+    }
 
     let company = companies.find(company => company.handle === handle);
     if (!company) return <Redirect to="/companies" />;
@@ -15,6 +52,8 @@ function Company({companies}) {
                     title={j.title} 
                     salary={j.salary} 
                     equity={j.equity} 
+                    applied={j.state}
+                    apply={apply}
                 />
             )}
         </div>
