@@ -15,11 +15,10 @@ function Company() {
             const { jobs } = user;
             const company = await JoblyApi.getCompany(handle);
       
-            // grab a set of IDs of jobs applied to
+            // make set of IDs of jobs applied to
             const jobsApplied = new Set(jobs.map(job => job.id));
       
-            // add key for each job in company if it is applied to ---
-            // this let us handle the "apply/applied" button
+            // add key for each job in company if it is applied to
             company.jobs = company.jobs.map(job => ({
               ...job,
               state: jobsApplied.has(job.id) ? 'applied' : null
@@ -35,14 +34,16 @@ function Company() {
             let message = await JoblyApi.apply(id);
             let newCompany = { ...company };
             newCompany.jobs = newCompany.jobs.map(job =>
-              job.id === jobId ? { ...job, state: message } : job
+              job.id === id ? { ...job, state: message } : job
             );
             setCompany(newCompany);
         }
     }
 
-    let company = companies.find(company => company.handle === handle);
-    if (!company) return <Redirect to="/companies" />;
+    if (!company) {
+        return <div>Loading...</div>;
+    }
+        
     return (
         <div className="Company col-md-8 offset-md-2">
             <h5 class="text-capitalize">{company.name}</h5>
