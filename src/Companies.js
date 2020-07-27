@@ -3,18 +3,18 @@ import Search from './Search';
 import CompanyCard from './CompanyCard';
 import JoblyApi from "./JoblyApi";
 
-const [companies, setCompanies] = useState([]);
-
-useEffect(() => {
-    getCompanies({});
-}, []);
-
-async function getCompanies(search) {
-    let companies = await JoblyApi.getCompanies(search);
-    setCompanies(companies)
-}
-
 function Companies() {
+    const [companies, setCompanies] = useState([]);
+
+    useEffect(() => {
+        getCompanies({});
+    }, []);
+
+    async function getCompanies(search) {
+        let companies = await JoblyApi.getCompanies(search);
+        setCompanies(companies)
+    }
+
     return (
         <div className="Companies col-md-8 offset-md-2">
             <Search search={getCompanies} />
