@@ -2,17 +2,28 @@ import React, { useState, useEffect } from "react";
 import Search from './Search';
 import JobCard from './JobCard';
 import JoblyApi from "./JoblyApi";
+import UserContext from "./UserContext";
 
 function Jobs() {
     const [jobs, setJobs] = useState([]);
-
+    const { user } = useContext(UserContext);
+    
     useEffect(() => {
         getJobs({});
     }, []);
 
     async function getJobs(search) {
         let jobs = await JoblyApi.getJobs(search);
-        setJobs(jobs)
+        // make set of IDs of jobs applied to
+        const jobsApplied = new Set(user.jobs.map(job => job.id));
+
+        // add key for each job in company if it is applied to
+        jobs = jobs.map(job => ({
+            ...job,
+            state: jobsApplied.has(job.id) ? 'applied' : null
+        }));
+        
+        setJobs(jobs);
     }
 
     async function apply(id) {
@@ -31,6 +42,7 @@ function Jobs() {
                     title={j.title} 
                     salary={j.salary} 
                     equity={j.equity}
+                    applied={j.state}
                     apply={apply} 
                 />
             )}
