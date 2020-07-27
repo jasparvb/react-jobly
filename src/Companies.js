@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Search from './Search';
 import CompanyCard from './CompanyCard';
+import JoblyApi from "./JoblyApi";
 
-function Companies({companies}) {
+const [companies, setCompanies] = useState([]);
+
+useEffect(() => {
+    getCompanies({});
+}, []);
+
+async function getCompanies(search) {
+    let companies = await JoblyApi.getCompanies(search);
+    setCompanies(companies)
+}
+
+function Companies() {
     return (
         <div className="Companies col-md-8 offset-md-2">
-            <Search search={search} />
+            <Search search={getCompanies} />
             {companies.map(c => 
                 <CompanyCard 
                     key={c.handle} 
