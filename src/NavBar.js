@@ -6,7 +6,7 @@ import { Navbar, Nav, NavItem } from "reactstrap";
 function NavBar() {
   return (
     <div>
-      <Navbar expand="md">
+      <Navbar className="NavBar" expand="md">
         <NavLink exact to="/" className="navbar-brand">
           Jobly
         </NavLink>

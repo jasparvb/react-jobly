@@ -7,7 +7,7 @@ function Companies() {
     const [companies, setCompanies] = useState([]);
 
     useEffect(() => {
-        getCompanies({});
+        getCompanies();
     }, []);
 
     async function getCompanies(search) {

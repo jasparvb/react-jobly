@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Search from './Search';
 import JobCard from './JobCard';
 import JoblyApi from "./JoblyApi";
