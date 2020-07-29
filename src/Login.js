@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import JoblyApi from "./JoblyApi";
 
 function Login({authenticate}) {
     const [activeTab, setActiveTab] = useState('login');
@@ -25,9 +26,36 @@ function Login({authenticate}) {
      *    & clear form. */
   
     const handleSubmit = evt => {
-      evt.preventDefault();
-      authenticate({...loginData});
-      history.push("/jobs");
+        evt.preventDefault();
+        let endpoint;
+        let data;
+        let token;
+
+        if(activeTab === 'signup') {
+            data = {
+                username: loginData.username,
+                password: loginData.password,
+                first_name: loginData.first_name || undefined,
+                last_name: loginData.last_name || undefined,
+                email: loginData.email || undefined
+            };
+            endpoint = "register";
+        } else {
+            data = {
+                username: loginData.username,
+                password: loginData.password
+            };
+            endpoint = "login";
+        }
+
+        try {
+            token = await JoblyApi[endpoint](data);
+        } catch (errors) {
+            return setloginData(data => ({ ...data, errors }));
+        }
+        
+        authenticate(token);
+        history.push("/jobs");
     };
   
     /** Update local state w/curr state of input elem */
