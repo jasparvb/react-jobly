@@ -11,7 +11,7 @@ function Login({authenticate}) {
         email: "" 
     };
 
-    const [formData, setFormData] = useState(INITIAL_STATE);
+    const [loginData, setLoginData] = useState(INITIAL_STATE);
     const history = useHistory();
 
     function setLogin() {
@@ -26,7 +26,7 @@ function Login({authenticate}) {
   
     const handleSubmit = evt => {
       evt.preventDefault();
-      authenticate({...formData});
+      authenticate({...loginData});
       history.push("/jobs");
     };
   
@@ -34,7 +34,7 @@ function Login({authenticate}) {
   
     const handleChange = evt => {
       const { name, value } = evt.target;
-      setFormData(fData => ({
+      setLoginData(fData => ({
         ...fData,
         [name]: value
       }));
@@ -45,15 +45,31 @@ function Login({authenticate}) {
         <div>
             <div className="form-group">
                 <label>First name</label>
-                <input name="first_name" className="form-control" value="" />
+                <input 
+                    name="first_name" 
+                    className="form-control" 
+                    value={loginData.first_name} 
+                    onChange={handleChange}
+                />
             </div>
             <div className="form-group">
                 <label>Last name</label>
-                <input name="last_name" className="form-control" value="" />
+                <input 
+                    name="last_name" 
+                    className="form-control" 
+                    value={loginData.last_name} 
+                    onChange={handleChange}
+                />
             </div>
             <div className="form-group">
                 <label>Email</label>
-                <input type="email" name="email" className="form-control" value="" />
+                <input 
+                    type="email" 
+                    name="email" 
+                    className="form-control" 
+                    value={loginData.email} 
+                    onChange={handleChange}
+                />
             </div>
         </div>
     );
@@ -71,11 +87,22 @@ function Login({authenticate}) {
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>Username</label>
-                            <input name="username" className="form-control" value="" />
+                            <input 
+                                name="username" 
+                                className="form-control" 
+                                value={loginData.username} 
+                                onChange={handleChange}
+                            />
                         </div>
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" className="form-control" value="" />
+                            <input 
+                                type="password" 
+                                name="password" 
+                                className="form-control" 
+                                value={loginData.password} 
+                                onChange={handleChange}
+                            />
                         </div>
                         {activeTab === 'signup' ? signupFields : ''}
                         <button type="submit" className="btn btn-primary float-right">Submit</button>
