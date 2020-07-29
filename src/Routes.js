@@ -9,27 +9,29 @@ import Profile from './Profile';
 
 function Routes() {
   return (
-    <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route exact path="/companies">
-        <Companies />
-      </Route>
-      <Route path="/companies/:handle">
-        <Company />
-      </Route>
-      <Route exact path="/jobs">
-        <Jobs />
-      </Route>
-      <Route exact path="/login">
-        <Login />
-      </Route>
-      <Route exact path="/profile">
-        <Profile />
-      </Route>
-      <Redirect to="/" />
-    </Switch>
+    <div className="pt-5">
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/companies">
+          <Companies />
+        </Route>
+        <Route path="/companies/:handle">
+          <Company />
+        </Route>
+        <Route exact path="/jobs">
+          <Jobs />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/profile">
+          <Profile />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </div>
   );
 }
 
