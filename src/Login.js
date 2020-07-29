@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import JoblyApi from "./JoblyApi";
+import Alert from "./Alert";
 
 function Login({authenticate}) {
     const [activeTab, setActiveTab] = useState('login');
@@ -133,6 +134,9 @@ function Login({authenticate}) {
                             />
                         </div>
                         {activeTab === 'signup' ? signupFields : ''}
+                        {loginData.errors.length ? (
+                            <Alert type="danger" messages={loginData.errors} />
+                        ) : null}
                         <button type="submit" className="btn btn-primary float-right">Submit</button>
                     </form>
                 </div>
