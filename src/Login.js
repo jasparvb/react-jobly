@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-function Login() {
+function Login({authenticate}) {
     const [activeTab, setActiveTab] = useState('login');
+    const INITIAL_STATE = { 
+        username: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        email: "" 
+    };
+
+    const [formData, setFormData] = useState(INITIAL_STATE);
+    const history = useHistory();
 
     function setLogin() {
         setActiveTab('login');
@@ -9,6 +20,27 @@ function Login() {
     function setSignup() {
         setActiveTab('signup');
     }
+  
+    /** Send {name, quantity} to parent
+     *    & clear form. */
+  
+    const handleSubmit = evt => {
+      evt.preventDefault();
+      authenticate({...formData});
+      history.push("/jobs");
+    };
+  
+    /** Update local state w/curr state of input elem */
+  
+    const handleChange = evt => {
+      const { name, value } = evt.target;
+      setFormData(fData => ({
+        ...fData,
+        [name]: value
+      }));
+    };
+  
+
     const signupFields = (
         <div>
             <div className="form-group">
@@ -36,7 +68,7 @@ function Login() {
             </div>
             <div className="card">
                 <div className="card-body">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>Username</label>
                             <input name="username" className="form-control" value="" />
