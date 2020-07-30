@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './App.scss';
 import { BrowserRouter } from "react-router-dom";
+import { decode } from "jsonwebtoken";
 import Routes from './Routes';
 import NavBar from './NavBar';
 import JoblyApi from "./JoblyApi";
@@ -12,18 +13,23 @@ function App() {
   const [token, setToken] = useState(initialValue);
 
   useEffect(() => {
+    async function getUser() {
+      try {
+        let { username } = decode(token);
+        let currentUser = await JoblyApi.getUser(username);
+        setUser(currentUser);
+      } catch (err) {
+        setUser(null);
+      }
+    }
+
     if (!token) {
       localStorage.removeItem('jobly-token');
     } else {
       localStorage.setItem('jobly-token', token);
+      getUser();
     }
   }, [token]);
-
-  useEffect(() => {
-    async function getUser() {
-      let user = await JoblyApi.getUser(user)
-    }
-  });
 
   return (
     <div className="App">

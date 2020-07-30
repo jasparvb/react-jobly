@@ -25,7 +25,7 @@ class JoblyApi {
             throw Array.isArray(message) ? message : [message];
         }
     }
-    
+
     static async login(data) {
         let res = await this.request(`login`, data, "post");
         return res.token;
@@ -36,6 +36,11 @@ class JoblyApi {
         return res.token;
     }
     
+    static async getUser(username) {
+        let res = await this.request(`users/${username}`);
+        return res.user;
+    }
+
     static async getCompany(handle) {
         let res = await this.request(`companies/${handle}`);
         return res.company;

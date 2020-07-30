@@ -7,7 +7,7 @@ import Jobs from './Jobs';
 import Login from './Login';
 import Profile from './Profile';
 
-function Routes() {
+function Routes({setToken}) {
   return (
     <div className="pt-5">
       <Switch>
@@ -24,7 +24,7 @@ function Routes() {
           <Jobs />
         </Route>
         <Route exact path="/login">
-          <Login />
+          <Login setToken={setToken} />
         </Route>
         <Route exact path="/profile">
           <Profile />
