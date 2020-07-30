@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext } from "react";
 import Alert from "./Alert";
 import JoblyApi from "./JoblyApi";
 import UserContext from "./UserContext";
@@ -6,7 +6,6 @@ import UserContext from "./UserContext";
 function Profile() {
     const { user, setUser } = useContext(UserContext);
 
-    const [activeTab, setActiveTab] = useState('login');
     const INITIAL_STATE = { 
         username: user.username,
         password: "",
@@ -14,11 +13,11 @@ function Profile() {
         last_name: user.last_name || "",
         email: user.email || "",
         photo_url: user.photo_url || "",
+        userSaved: false,
         errors: [] 
     };
 
     const [userData, setUserData] = useState(INITIAL_STATE);
-    let savedUser = false;
  
     async function handleSubmit(evt) {
         evt.preventDefault();
@@ -33,9 +32,9 @@ function Profile() {
 
         try {
             const updatedUser = await JoblyApi.updateUser(userData.username, data);
-            setUserData(f => ({ ...f, errors: [], password: "" }));
+            console.log("UPDATED USER", updatedUser);
+            setUserData(f => ({ ...f, errors: [], password: "", userSaved: true }));
             setUser(updatedUser);
-            savedUser = true;
         } catch (errors) {
             return setUserData(data => ({ ...data, errors }));
         }
@@ -45,10 +44,10 @@ function Profile() {
   
     const handleChange = evt => {
       const { name, value } = evt.target;
-      savedUser = false;
-      setUserData(fData => ({
-        ...fData,
-        [name]: value
+      setUserData(f => ({
+        ...f,
+        [name]: value,
+        userSaved: false
       }));
     };
   
@@ -112,7 +111,7 @@ function Profile() {
                         {userData.errors.length ? (
                             <Alert type="danger" messages={userData.errors} />
                         ) : null}
-                        {savedUser ? (
+                        {userData.userSaved ? (
                             <Alert type="success" messages={["User updated successfully."]} />
                         ) : null}
                         <button type="submit" className="btn btn-primary btn-block mt-4">Save Changes</button>
