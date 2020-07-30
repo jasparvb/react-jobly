@@ -33,7 +33,7 @@ function Search({search}) {
                     value={formData.search}
                     onChange={handleChange}
                 />
-                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                <button type="submit" className="btn btn-lg btn-primary">Submit</button>
             </form>
         </div>
     );

@@ -46,7 +46,8 @@ function Company() {
         
     return (
         <div className="Company col-md-8 offset-md-2">
-            <h5 class="text-capitalize">{company.name}</h5>
+            <h5 className="text-capitalize">{company.name}</h5>
+            <p>{company.description}</p>
             {company.jobs.map(j => 
                 <JobCard 
                     key={j.id} 
@@ -54,7 +55,7 @@ function Company() {
                     salary={j.salary} 
                     equity={j.equity} 
                     applied={j.state}
-                    apply={apply}
+                    handleApply={() => apply(j.id)}
                 />
             )}
         </div>
