@@ -1,6 +1,6 @@
 import React from "react";
 
-function JobCard({key, title, salary, equity, applied, apply}) {
+function JobCard({title, salary, equity, applied, handleApply}) {
     return (
         <div class="card-body">
             <h6 class="card-title d-flex justify-content-between">
@@ -10,7 +10,7 @@ function JobCard({key, title, salary, equity, applied, apply}) {
             <div>Equity: {equity}</div>
             <button class="btn btn-danger font-weight-bold text-uppercase float-right" 
                 disabled={applied}
-                onClick={() => apply(key)}
+                onClick={handleApply}
             >
                 {applied ? "Applied" : "Apply"}
             </button>

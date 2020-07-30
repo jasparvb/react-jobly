@@ -27,7 +27,8 @@ function Jobs() {
     }
 
     async function apply(id) {
-        let message = await JoblyApi.applyToJob(id);
+        console.log(id);
+        let message = await JoblyApi.apply(id);
         setJobs(j => j.map(job => 
           job.id === id ? { ...job, state: message} : job
         ));
@@ -43,7 +44,7 @@ function Jobs() {
                     salary={j.salary} 
                     equity={j.equity}
                     applied={j.state}
-                    apply={apply} 
+                    handleApply={() => apply(j.id)} 
                 />
             )}
         </div>
