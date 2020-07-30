@@ -11,6 +11,7 @@ function App() {
   const [user, setUser] = useState(null);
   const initialValue = localStorage.getItem('jobly-token') || null;
   const [token, setToken] = useState(initialValue);
+  const [infoLoaded, setInfoLoaded] = useState(false);
 
   useEffect(() => {
     async function getUser() {
@@ -21,15 +22,21 @@ function App() {
       } catch (err) {
         setUser(null);
       }
+      setInfoLoaded(true);
     }
 
     if (!token) {
       localStorage.removeItem('jobly-token');
     } else {
       localStorage.setItem('jobly-token', token);
+      setInfoLoaded(false);
       getUser();
     }
   }, [token]);
+
+  if (!infoLoaded) {
+    return <h3>Loading...</h3>;
+  }
 
   return (
     <div className="App">
