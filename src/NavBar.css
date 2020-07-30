@@ -7,3 +7,7 @@
     font-weight: bold;
     color: black;
 }
+
+.nav-item {
+    padding-right: 40px;
+}
