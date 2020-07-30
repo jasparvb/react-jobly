@@ -8,6 +8,16 @@ import UserContext from "./UserContext";
 
 function App() {
   const [user, setUser] = useState(null);
+  const initialValue = localStorage.getItem('jobly-token') || null;
+  const [token, setToken] = useState(initialValue);
+
+  useEffect(() => {
+    if (!token) {
+      localStorage.removeItem('jobly-token');
+    } else {
+      localStorage.setItem('jobly-token', token);
+    }
+  }, [token]);
 
   useEffect(() => {
     async function getUser() {
@@ -20,7 +30,7 @@ function App() {
       <BrowserRouter>
         <UserContext.Provider value={{ user, setUser }}>
           <NavBar />
-          <Routes />
+          <Routes setToken={setToken} />
         </UserContext.Provider>
       </BrowserRouter>
     </div>

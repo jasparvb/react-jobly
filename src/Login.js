@@ -3,14 +3,15 @@ import { useHistory } from "react-router-dom";
 import JoblyApi from "./JoblyApi";
 import Alert from "./Alert";
 
-function Login({authenticate}) {
+function Login({setToken}) {
     const [activeTab, setActiveTab] = useState('login');
     const INITIAL_STATE = { 
         username: "",
         password: "",
         first_name: "",
         last_name: "",
-        email: "" 
+        email: "",
+        errors: [] 
     };
 
     const [loginData, setLoginData] = useState(INITIAL_STATE);
@@ -26,7 +27,7 @@ function Login({authenticate}) {
     /** Send {name, quantity} to parent
      *    & clear form. */
   
-    const handleSubmit = evt => {
+    async function handleSubmit(evt) {
         evt.preventDefault();
         let endpoint;
         let data;
@@ -52,10 +53,10 @@ function Login({authenticate}) {
         try {
             token = await JoblyApi[endpoint](data);
         } catch (errors) {
-            return setloginData(data => ({ ...data, errors }));
+            return setLoginData(data => ({ ...data, errors }));
         }
         
-        authenticate(token);
+        setToken(token);
         history.push("/jobs");
     };
   
