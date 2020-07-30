@@ -18,23 +18,24 @@ function Profile() {
     };
 
     const [userData, setUserData] = useState(INITIAL_STATE);
-  
-    /** Send {name, quantity} to parent
-     *    & clear form. */
-  
+    let savedUser = false;
+ 
     async function handleSubmit(evt) {
         evt.preventDefault();
 
         let data = {
-            username: userData.username,
             password: userData.password,
             first_name: userData.first_name || undefined,
             last_name: userData.last_name || undefined,
-            email: userData.email || undefined
+            email: userData.email || undefined,
+            photo_url: userData.photo_url || undefined
         };
 
         try {
-            const message = await JoblyApi.updateUser(data);
+            const updatedUser = await JoblyApi.updateUser(userData.username, data);
+            setUserData(f => ({ ...f, errors: [], password: "" }));
+            setUser(updatedUser);
+            savedUser = true;
         } catch (errors) {
             return setUserData(data => ({ ...data, errors }));
         }
@@ -44,6 +45,7 @@ function Profile() {
   
     const handleChange = evt => {
       const { name, value } = evt.target;
+      savedUser = false;
       setUserData(fData => ({
         ...fData,
         [name]: value
@@ -109,6 +111,9 @@ function Profile() {
                         </div>
                         {userData.errors.length ? (
                             <Alert type="danger" messages={userData.errors} />
+                        ) : null}
+                        {savedUser ? (
+                            <Alert type="success" messages={["User updated successfully."]} />
                         ) : null}
                         <button type="submit" className="btn btn-primary btn-block mt-4">Save Changes</button>
                     </form>
