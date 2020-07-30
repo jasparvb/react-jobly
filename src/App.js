@@ -29,10 +29,15 @@ function App() {
       localStorage.removeItem('jobly-token');
     } else {
       localStorage.setItem('jobly-token', token);
-      setInfoLoaded(false);
-      getUser();
     }
+    setInfoLoaded(false);
+    getUser();
   }, [token]);
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+  };
 
   if (!infoLoaded) {
     return <h3>Loading...</h3>;
@@ -42,7 +47,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <UserContext.Provider value={{ user, setUser }}>
-          <NavBar />
+          <NavBar logout={logout} />
           <Routes setToken={setToken} />
         </UserContext.Provider>
       </BrowserRouter>
